@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Collection;
 
+/**
+ * Class TextFormatter
+ *
+ * Rules:
+ *  1. First word in a sentence is capitalized
+ *  2. Last word in a sentence is capitalized
+ *  3. Words within brackets (or similar) are capitalized, similar to rules #1 & #2
+ *  4. Words within the $ignoredWords array should not be capitalized as long as it
+ *      doesn't conflict with rules #1-#3
+ */
 class TextFormatter
 {
     /**
