@@ -1,14 +1,28 @@
 <?php namespace Cmgmyr\TextFormatter;
 
-// @todo: https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=words%20that%20shouldn%27t%20be%20capitalized
-
 use Illuminate\Support\Collection;
 
 class TextFormatter
 {
-
+    /**
+     * The title that we need to format and return
+     *
+     * @var string
+     */
     protected $title = '';
+
+    /**
+     * Collection of words generated from the original title
+     *
+     * @object Collection
+     */
     protected $indexedWords;
+
+    /**
+     * Words that should be ignored from capitalization
+     *
+     * @var array
+     */
     protected $ignoredWords = [
         'a',
         'an',
@@ -31,28 +45,22 @@ class TextFormatter
         'via'
     ];
 
+    /**
+     * Construct, just needs the title to get going
+     *
+     * @param string $title
+     */
     public function __construct($title)
     {
         $this->setTitle($title);
-        $this->createWordIndex();
+        $this->splitWords();
     }
 
     /**
-     * @param string $title
+     * Converts the initial title to a correctly formatted one
+     *
+     * @return string
      */
-    public function setTitle($title)
-    {
-        // removes all extra spaces
-        $this->title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
-    }
-
-    public static function titleCase($title)
-    {
-        // hack in order to keep static method call
-        $obj = new TextFormatter($title);
-        return $obj->convertTitle();
-    }
-
     public function convertTitle()
     {
         foreach ($this->indexedWords as $index => $word) {
@@ -64,6 +72,76 @@ class TextFormatter
         return $this->title;
     }
 
+    /**
+     * Returns the newly formatted title
+     *
+     * @param string $title
+     * @return string
+     */
+    public static function titleCase($title)
+    {
+        // hack in order to keep static method call
+        $obj = new TextFormatter($title);
+        return $obj->convertTitle();
+    }
+
+    /**
+     * Sets the title after cleaning up extra spaces
+     *
+     * @param string $title
+     */
+    protected function setTitle($title)
+    {
+        $this->title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
+    }
+
+    /**
+     * Creates an array of words from the title to be formatted
+     */
+    protected function splitWords()
+    {
+        $indexedWords = [];
+        $offset = 0;
+
+        $words = explode(' ', $this->title);
+        foreach ($words as $word) {
+            $indexedWords[$this->getWordIndex($word, $offset)] = strtolower($word);
+            $offset += strlen($word) + 1; // plus space
+        }
+
+        $this->indexedWords = new Collection($indexedWords);
+    }
+
+    /**
+     * Finds the correct index of the word within the title
+     *
+     * @param $word
+     * @param $offset
+     * @return int
+     */
+    protected function getWordIndex($word, $offset)
+    {
+        $index = strpos($this->title, $word, $offset);
+        return $this->correctIndexOffset($index);
+    }
+
+    /**
+     * Corrects the potential offset issue with some UTF-8 characters
+     *
+     * @param $index
+     * @return int
+     */
+    protected function correctIndexOffset($index)
+    {
+        return mb_strlen(substr($this->title, 0, $index), 'UTF-8');
+    }
+
+    /**
+     * Replaces a formatted word within the current title
+     *
+     * @param int $index
+     * @param string $word
+     */
     protected function rebuildTitle($index, $word)
     {
         $this->title =
@@ -72,17 +150,9 @@ class TextFormatter
             mb_substr($this->title, $index + mb_strlen($word, 'UTF-8'), mb_strlen($this->title, 'UTF-8'), 'UTF-8');
     }
 
-    protected function isIgnoredWord($word)
-    {
-        return in_array($word, $this->ignoredWords);
-    }
-
-    protected function isFirstWord($index)
-    {
-        return $index == 0;
-    }
-
     /**
+     * Performs the uppercase action on the given word
+     *
      * @param $word
      * @return string
      */
@@ -99,7 +169,55 @@ class TextFormatter
         return ucwords($word);
     }
 
-    protected function firstWordSentence($index)
+    /**
+     * Condition to see if the given word should be uppercase
+     *
+     * @param $index
+     * @param $word
+     * @return bool
+     */
+    protected function wordShouldBeUppercase($index, $word)
+    {
+        return
+            $this->isFirstWord($index) ||
+            $this->isLastWord($word) ||
+            $this->isFirstWordOfSentence($index) ||
+            !$this->isIgnoredWord($word);
+    }
+
+    /**
+     * Checks if the index is the first
+     *
+     * @param $index
+     * @return bool
+     */
+    protected function isFirstWord($index)
+    {
+        return $index == 0;
+    }
+
+    /**
+     * Checks to see if the word is the last word in the title
+     *
+     * @param $word
+     * @return bool
+     */
+    protected function isLastWord($word)
+    {
+        if ($word === $this->indexedWords->last()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks to see if the word the start of a new sentence
+     *
+     * @param $index
+     * @return bool
+     */
+    protected function isFirstWordOfSentence($index)
     {
         $twoCharactersBack = mb_substr($this->title, $index - 2, 1);
 
@@ -111,6 +229,8 @@ class TextFormatter
     }
 
     /**
+     * Checks to see if the given string is a punctuation character
+     *
      * @param $string
      * @return int
      */
@@ -120,56 +240,13 @@ class TextFormatter
     }
 
     /**
-     * @param $index
-     * @return int
-     */
-    protected function correctIndexOffset($index)
-    {
-        $index = mb_strlen(substr($this->title, 0, $index), 'UTF-8');
-        return $index;
-    }
-
-    protected function createWordIndex()
-    {
-        $indexedWords = [];
-        $offset = 0;
-
-        $words = explode(' ', $this->title);
-        foreach ($words as $word) {
-            $indexedWords[$this->getWordIndex($word, $offset)] = strtolower($word);
-            $offset += strlen($word) + 1; // plus space
-        }
-
-        $this->indexedWords = new Collection($indexedWords);
-    }
-
-    protected function isLastWord($word)
-    {
-        if ($word === $this->indexedWords->last()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $word
-     * @param $offset
-     * @return bool|int
-     */
-    protected function getWordIndex($word, $offset)
-    {
-        $index = strpos($this->title, $word, $offset);
-        return $this->correctIndexOffset($index);
-    }
-
-    /**
-     * @param $index
+     * Checks if the given word should be ignored
+     *
      * @param $word
      * @return bool
      */
-    protected function wordShouldBeUppercase($index, $word)
+    protected function isIgnoredWord($word)
     {
-        return $this->isFirstWord($index) || $this->isLastWord($word) || $this->firstWordSentence($index) || !$this->isIgnoredWord($word);
+        return in_array($word, $this->ignoredWords);
     }
 }
