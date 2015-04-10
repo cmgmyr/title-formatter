@@ -2,12 +2,13 @@
 
 // @todo: https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=words%20that%20shouldn%27t%20be%20capitalized
 
+use Illuminate\Support\Collection;
+
 class TextFormatter
 {
 
     protected $title = '';
-    protected $indexedWords = [];
-    protected $lastWord = '';
+    protected $indexedWords;
     protected $ignoredWords = [
         'a',
         'an',
@@ -54,20 +55,10 @@ class TextFormatter
 
     public function convertTitle()
     {
-        foreach ($this->indexedWords as $currentWord) {
-            list ($word, $index) = $currentWord;
-
-            $index = $this->correctIndexOffset($index);
-
-            // start off with lowercase
-            $word = strtolower($word);
-
-            // @todo: fix this
-            if ($this->isFirstWord($index) || $this->isLastWord($word) || $this->firstWordSentence($index) || !$this->isIgnoredWord($word)) {
-                $word = $this->uppercaseWord($word);
+        foreach ($this->indexedWords as $index => $word) {
+            if ($this->wordShouldBeUppercase($index, $word)) {
+                $this->rebuildTitle($index, $this->uppercaseWord($word));
             }
-
-            $this->rebuildTitle($index, $word);
         }
 
         return $this->title;
@@ -140,22 +131,45 @@ class TextFormatter
 
     protected function createWordIndex()
     {
-        $words = explode(' ', $this->title);
+        $indexedWords = [];
         $offset = 0;
+
+        $words = explode(' ', $this->title);
         foreach ($words as $word) {
-            $this->indexedWords[] = [$word, strpos($this->title, $word, $offset)];
+            $indexedWords[$this->getWordIndex($word, $offset)] = strtolower($word);
             $offset += strlen($word) + 1; // plus space
         }
 
-        $this->lastWord = end($words);
+        $this->indexedWords = new Collection($indexedWords);
     }
 
     protected function isLastWord($word)
     {
-        if ($word === $this->lastWord) {
+        if ($word === $this->indexedWords->last()) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * @param $word
+     * @param $offset
+     * @return bool|int
+     */
+    protected function getWordIndex($word, $offset)
+    {
+        $index = strpos($this->title, $word, $offset);
+        return $this->correctIndexOffset($index);
+    }
+
+    /**
+     * @param $index
+     * @param $word
+     * @return bool
+     */
+    protected function wordShouldBeUppercase($index, $word)
+    {
+        return $this->isFirstWord($index) || $this->isLastWord($word) || $this->firstWordSentence($index) || !$this->isIgnoredWord($word);
     }
 }
