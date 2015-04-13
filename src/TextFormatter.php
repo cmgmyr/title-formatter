@@ -31,6 +31,13 @@ class TextFormatter
     protected $separator = ' ';
 
     /**
+     * Encoding used for mb_ functions
+     *
+     * @var string
+     */
+    protected $encoding = 'UTF-8';
+
+    /**
      * Collection of words generated from the original title
      *
      * @var array
@@ -135,7 +142,7 @@ class TextFormatter
             }
 
             $indexedWords[$wordIndex] = $word;
-            $offset += mb_strlen($word, 'UTF-8') + 1; // plus space
+            $offset += mb_strlen($word, $this->encoding) + 1; // plus space
         }
 
         $this->indexedWords = $indexedWords;
@@ -150,7 +157,7 @@ class TextFormatter
      */
     protected function getWordIndex($word, $offset)
     {
-        $index = mb_strpos($this->title, $word, $offset, 'UTF-8');
+        $index = mb_strpos($this->title, $word, $offset, $this->encoding);
         return $this->correctIndexOffset($index);
     }
 
@@ -162,7 +169,7 @@ class TextFormatter
      */
     protected function correctIndexOffset($index)
     {
-        return mb_strlen(substr($this->title, 0, $index), 'UTF-8');
+        return mb_strlen(substr($this->title, 0, $index), $this->encoding);
     }
 
     /**
@@ -174,9 +181,14 @@ class TextFormatter
     protected function rebuildTitle($index, $word)
     {
         $this->title =
-            mb_substr($this->title, 0, $index, 'UTF-8') .
+            mb_substr($this->title, 0, $index, $this->encoding) .
             $word .
-            mb_substr($this->title, $index + mb_strlen($word, 'UTF-8'), mb_strlen($this->title, 'UTF-8'), 'UTF-8');
+            mb_substr(
+                $this->title,
+                $index + mb_strlen($word, $this->encoding),
+                mb_strlen($this->title, $this->encoding),
+                $this->encoding
+            );
     }
 
     /**
@@ -191,10 +203,10 @@ class TextFormatter
         $prefix = '';
         $hasPunctuation = true;
         do {
-            $first = mb_substr($word, 0, 1, 'UTF-8');
+            $first = mb_substr($word, 0, 1, $this->encoding);
             if ($this->isPunctuation($first)) {
                 $prefix .= $first;
-                $word = mb_substr($word, 1, -1, 'UTF-8');
+                $word = mb_substr($word, 1, -1, $this->encoding);
             } else {
                 $hasPunctuation = false;
             }
@@ -220,8 +232,7 @@ class TextFormatter
             ) &&
             (
                 !$this->hasUppercaseLetter($word)
-            )
-            ;
+            );
     }
 
     /**
@@ -251,7 +262,7 @@ class TextFormatter
             return true;
         }
 
-        $twoCharactersBack = mb_substr($this->title, $index - 2, 1, 'UTF-8');
+        $twoCharactersBack = mb_substr($this->title, $index - 2, 1, $this->encoding);
 
         if ($this->isPunctuation($twoCharactersBack)) {
             return true;
