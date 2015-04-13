@@ -26,6 +26,13 @@ class TextFormatter
     protected $title = '';
 
     /**
+     * The separator character for in between words
+     *
+     * @var string
+     */
+    protected $separator = ' ';
+
+    /**
      * Collection of words generated from the original title
      *
      * @object Collection
@@ -64,9 +71,10 @@ class TextFormatter
      *
      * @param string $title
      */
-    public function __construct($title)
+    public function __construct($title, $separator=' ')
     {
         $this->setTitle($title);
+        $this->separator = $separator;
         $this->splitWords();
     }
 
@@ -92,10 +100,10 @@ class TextFormatter
      * @param string $title
      * @return string
      */
-    public static function titleCase($title)
+    public static function titleCase($title, $separator=' ')
     {
         // hack in order to keep static method call
-        $obj = new TextFormatter($title);
+        $obj = new TextFormatter($title, $separator);
         return $obj->convertTitle();
     }
 
@@ -117,9 +125,16 @@ class TextFormatter
         $indexedWords = [];
         $offset = 0;
 
-        $words = explode(' ', $this->title);
+        $words = explode($this->separator, $this->title);
         foreach ($words as $word) {
-            $indexedWords[$this->getWordIndex($word, $offset)] = $word;
+            $wordIndex = $this->getWordIndex($word, $offset);
+
+            if ($this->hasDash($word)) {
+                $word = TextFormatter::titleCase($word, '-');
+                $this->rebuildTitle($wordIndex, $word);
+            }
+
+            $indexedWords[$wordIndex] = $word;
             $offset += strlen($word) + 1; // plus space
         }
 
@@ -271,5 +286,16 @@ class TextFormatter
     protected function hasUppercaseLetter($word)
     {
         return preg_match("/[A-Z]/", $word);
+    }
+
+    /**
+     * Checks to see if the word has a dash
+     *
+     * @param $word
+     * @return int
+     */
+    protected function hasDash($word)
+    {
+        return preg_match("/\-/", $word);
     }
 }
