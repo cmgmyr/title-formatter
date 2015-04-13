@@ -39,7 +39,7 @@ class TextFormatterTest extends TestCase
     {
         $startingTitle = "this should be a super-awesome post!";
         $endingTitle = TextFormatter::titleCase($startingTitle);
-        $correctTitle = "This Should Be a Super-awesome Post!";
+        $correctTitle = "This Should Be a Super-Awesome Post!";
 
         $this->assertEquals($correctTitle, $endingTitle);
     }
@@ -70,6 +70,26 @@ class TextFormatterTest extends TestCase
         $startingTitle = "very simple sentence of";
         $endingTitle = TextFormatter::titleCase($startingTitle);
         $correctTitle = "Very Simple Sentence Of";
+
+        $this->assertEquals($correctTitle, $endingTitle);
+    }
+
+    /** @test */
+    public function it_should_ignore_words_that_have_capital_letters()
+    {
+        $startingTitle = "i think eBay is the greatest site! also, McCormick has the best spices!";
+        $endingTitle = TextFormatter::titleCase($startingTitle);
+        $correctTitle = "I Think eBay is the Greatest Site! Also, McCormick has the Best Spices!";
+
+        $this->assertEquals($correctTitle, $endingTitle);
+    }
+
+    /** @test */
+    public function it_should_capitalize_after_multiple_punctuation()
+    {
+        $startingTitle = 'this post is $$$money';
+        $endingTitle = TextFormatter::titleCase($startingTitle);
+        $correctTitle = 'This Post is $$$Money';
 
         $this->assertEquals($correctTitle, $endingTitle);
     }
