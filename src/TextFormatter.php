@@ -119,7 +119,7 @@ class TextFormatter
 
         $words = explode(' ', $this->title);
         foreach ($words as $word) {
-            $indexedWords[$this->getWordIndex($word, $offset)] = strtolower($word);
+            $indexedWords[$this->getWordIndex($word, $offset)] = $word;
             $offset += strlen($word) + 1; // plus space
         }
 
@@ -193,21 +193,9 @@ class TextFormatter
     protected function wordShouldBeUppercase($index, $word)
     {
         return
-            $this->isFirstWord($index) ||
-            $this->isLastWord($word) ||
             $this->isFirstWordOfSentence($index) ||
+            $this->isLastWord($word) ||
             !$this->isIgnoredWord($word);
-    }
-
-    /**
-     * Checks if the index is the first
-     *
-     * @param $index
-     * @return bool
-     */
-    protected function isFirstWord($index)
-    {
-        return $index == 0;
     }
 
     /**
@@ -233,6 +221,10 @@ class TextFormatter
      */
     protected function isFirstWordOfSentence($index)
     {
+        if ($index == 0) {
+            return true;
+        }
+
         $twoCharactersBack = mb_substr($this->title, $index - 2, 1);
 
         if ($this->isPunctuation($twoCharactersBack)) {
