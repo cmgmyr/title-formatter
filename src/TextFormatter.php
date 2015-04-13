@@ -193,9 +193,15 @@ class TextFormatter
     protected function wordShouldBeUppercase($index, $word)
     {
         return
-            $this->isFirstWordOfSentence($index) ||
-            $this->isLastWord($word) ||
-            !$this->isIgnoredWord($word);
+            (
+                $this->isFirstWordOfSentence($index) ||
+                $this->isLastWord($word) ||
+                !$this->isIgnoredWord($word)
+            ) &&
+            (
+                !$this->hasUppercaseLetter($word)
+            )
+            ;
     }
 
     /**
@@ -254,5 +260,16 @@ class TextFormatter
     protected function isIgnoredWord($word)
     {
         return in_array($word, $this->ignoredWords);
+    }
+
+    /**
+     * Checks to see if a word has an uppercase letter
+     *
+     * @param $word
+     * @return int
+     */
+    protected function hasUppercaseLetter($word)
+    {
+        return preg_match("/[A-Z]/", $word);
     }
 }

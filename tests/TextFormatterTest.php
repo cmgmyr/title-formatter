@@ -79,7 +79,7 @@ class TextFormatterTest extends TestCase
     {
         $startingTitle = "i think eBay is the greatest site! also, McCormick has the best spices!";
         $endingTitle = TextFormatter::titleCase($startingTitle);
-        $correctTitle = "I Think eBay is the Greatest Site! Also, McCormick has the Best Spices!";
+        $correctTitle = "I Think eBay is the Greatest Site! Also, McCormick Has the Best Spices!";
 
         $this->assertEquals($correctTitle, $endingTitle);
     }
