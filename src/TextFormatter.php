@@ -187,15 +187,20 @@ class TextFormatter
      */
     protected function uppercaseWord($word)
     {
-        // see if first character is special
-        $first = mb_substr($word, 0, 1);
-        if ($this->isPunctuation($first)) {
-            $word = mb_substr($word, 1, -1);
+        // see if first characters are special
+        $prefix = '';
+        $hasPunctuation = true;
+        do {
+            $first = mb_substr($word, 0, 1, 'UTF-8');
+            if ($this->isPunctuation($first)) {
+                $prefix .= $first;
+                $word = mb_substr($word, 1, -1, 'UTF-8');
+            } else {
+                $hasPunctuation = false;
+            }
+        } while ($hasPunctuation == true);
 
-            return $first . ucwords($word);
-        }
-
-        return ucwords($word);
+        return $prefix . ucwords($word);
     }
 
     /**
@@ -246,7 +251,7 @@ class TextFormatter
             return true;
         }
 
-        $twoCharactersBack = mb_substr($this->title, $index - 2, 1);
+        $twoCharactersBack = mb_substr($this->title, $index - 2, 1, 'UTF-8');
 
         if ($this->isPunctuation($twoCharactersBack)) {
             return true;
@@ -263,7 +268,7 @@ class TextFormatter
      */
     protected function isPunctuation($string)
     {
-        return preg_match("/\p{P}/u", $string);
+        return preg_match("/[\p{P}\p{S}]/u", $string);
     }
 
     /**
