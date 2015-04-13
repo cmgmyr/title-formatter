@@ -70,8 +70,9 @@ class TextFormatter
      * Construct, just needs the title to get going
      *
      * @param string $title
+     * @param string $separator
      */
-    public function __construct($title, $separator=' ')
+    public function __construct($title, $separator = ' ')
     {
         $this->setTitle($title);
         $this->separator = $separator;
@@ -98,9 +99,10 @@ class TextFormatter
      * Returns the newly formatted title
      *
      * @param string $title
+     * @param string $separator
      * @return string
      */
-    public static function titleCase($title, $separator=' ')
+    public static function titleCase($title, $separator = ' ')
     {
         // hack in order to keep static method call
         $obj = new TextFormatter($title, $separator);
