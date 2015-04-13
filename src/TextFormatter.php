@@ -1,7 +1,5 @@
 <?php namespace Cmgmyr\TextFormatter;
 
-use Illuminate\Support\Collection;
-
 /**
  * Class TextFormatter
  *
@@ -35,9 +33,9 @@ class TextFormatter
     /**
      * Collection of words generated from the original title
      *
-     * @object Collection
+     * @var array
      */
-    protected $indexedWords;
+    protected $indexedWords = [];
 
     /**
      * Words that should be ignored from capitalization
@@ -137,10 +135,10 @@ class TextFormatter
             }
 
             $indexedWords[$wordIndex] = $word;
-            $offset += strlen($word) + 1; // plus space
+            $offset += mb_strlen($word, 'UTF-8') + 1; // plus space
         }
 
-        $this->indexedWords = new Collection($indexedWords);
+        $this->indexedWords = $indexedWords;
     }
 
     /**
@@ -152,7 +150,7 @@ class TextFormatter
      */
     protected function getWordIndex($word, $offset)
     {
-        $index = strpos($this->title, $word, $offset);
+        $index = mb_strpos($this->title, $word, $offset, 'UTF-8');
         return $this->correctIndexOffset($index);
     }
 
@@ -234,7 +232,7 @@ class TextFormatter
      */
     protected function isLastWord($word)
     {
-        if ($word === $this->indexedWords->last()) {
+        if ($word === end($this->indexedWords)) {
             return true;
         }
 
