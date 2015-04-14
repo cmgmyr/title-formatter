@@ -60,6 +60,11 @@ class TextFormatterTest extends TestCase
             'title' => 'it\'s really something, isn\'t it?',
             'correct' => 'It\'s Really Something, Isn\'t It?'
         ],
+        [
+            // tests for a bug with a dash separator
+            'title' => 'test - jet fighters',
+            'correct' => 'Test - Jet Fighters'
+        ],
     ];
 
     /** @test */

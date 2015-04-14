@@ -312,6 +312,6 @@ class TextFormatter
      */
     protected function hasDash($word)
     {
-        return preg_match("/\-/", $word);
+        return preg_match("/\-/", $word) && mb_strlen($word, $this->encoding) > 1;
     }
 }
