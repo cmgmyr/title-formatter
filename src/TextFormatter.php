@@ -319,6 +319,8 @@ class TextFormatter
      */
     protected function hasDash($word)
     {
-        return preg_match("/\-/", $word) && mb_strlen($word, $this->encoding) > 1;
+        $wordWithoutDashes = str_replace('-', '', $word);
+
+        return preg_match("/\-/", $word) && mb_strlen($wordWithoutDashes, $this->encoding) > 1;
     }
 }

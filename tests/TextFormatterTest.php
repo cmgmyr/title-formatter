@@ -66,6 +66,11 @@ class TextFormatterTest extends TestCase
             'correct' => 'Test - Jet Fighters'
         ],
         [
+            // tests for a bug with multiple separators
+            'title' => 'test --- jet fighters - test ==== testtest',
+            'correct' => 'Test --- Jet Fighters - Test ==== Testtest'
+        ],
+        [
             // tests numbers only
             'title' => '1234 567',
             'correct' => '1234 567'
