@@ -19,9 +19,9 @@ class TextFormatter
     /**
      * The title that we need to format and return
      *
-     * @var string
+     * @var string|null
      */
-    protected $title = '';
+    protected $title = null;
 
     /**
      * The separator character for in between words
@@ -81,7 +81,6 @@ class TextFormatter
     {
         $this->setTitle($title);
         $this->separator = $separator;
-        $this->splitWords();
     }
 
     /**
@@ -91,7 +90,11 @@ class TextFormatter
      */
     public function convertTitle()
     {
-        foreach ($this->indexedWords as $index => $word) {
+        if ($this->title === null) {
+            return '';
+        }
+
+        foreach ($this->splitWords() as $index => $word) {
             if ($this->wordShouldBeUppercase($index, $word)) {
                 $this->rebuildTitle($index, $this->uppercaseWord($word));
             }
@@ -121,7 +124,11 @@ class TextFormatter
      */
     protected function setTitle($title)
     {
-        $this->title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
+        $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
+
+        if ($title != '') {
+            $this->title = $title;
+        }
     }
 
     /**
@@ -145,7 +152,7 @@ class TextFormatter
             $offset += mb_strlen($word, $this->encoding) + 1; // plus space
         }
 
-        $this->indexedWords = $indexedWords;
+        return $this->indexedWords = $indexedWords;
     }
 
     /**

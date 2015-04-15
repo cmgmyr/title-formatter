@@ -65,6 +65,41 @@ class TextFormatterTest extends TestCase
             'title' => 'test - jet fighters',
             'correct' => 'Test - Jet Fighters'
         ],
+        [
+            // tests numbers only
+            'title' => '1234 567',
+            'correct' => '1234 567'
+        ],
+        [
+            // tests colon
+            'title' => 'this is a test: cool, huh?',
+            'correct' => 'This is a Test: Cool, Huh?'
+        ],
+        [
+            // tests for a bug with empty title
+            'title' => '',
+            'correct' => ''
+        ],
+        [
+            // tests for a bug with null title
+            'title' => null,
+            'correct' => ''
+        ],
+        [
+            // tests for a bug with all spaces
+            'title' => '     ',
+            'correct' => ''
+        ],
+        [
+            // tests for a bug with all spaces, one word
+            'title' => '     test',
+            'correct' => 'Test'
+        ],
+        [
+            // tests one word
+            'title' => 'test',
+            'correct' => 'Test'
+        ],
     ];
 
     /** @test */
