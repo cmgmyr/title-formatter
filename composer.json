@@ -1,12 +1,11 @@
 {
-    "name": "cmgmyr/text-formatter",
-    "description": "Easily formats a post title",
+    "name": "spartz/text-formatter",
+    "description": "A simple to use text formatter, primarily used for page/blog titles",
     "license": "MIT",
     "authors": [
         {
             "name": "Chris Gmyr",
-            "email": "cmgmyr@gmail.com",
-            "homepage": "http://www.chrisgmyr.com",
+            "email": "cgmyr@spartzinc.com",
             "role": "Developer"
         }
     ],
@@ -20,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Cmgmyr\\TextFormatter\\": "src"
+            "Spartz\\TextFormatter\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Cmgmyr\\TextFormatter\\Test\\": "tests"
+            "Spartz\\TextFormatter\\Test\\": "tests"
         }
     },
     "extra": {

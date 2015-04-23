@@ -1,18 +1,8 @@
-<?php namespace Cmgmyr\TextFormatter;
+<?php namespace Spartz\TextFormatter;
 
 /**
  * Class TextFormatter
  *
- * Rules:
- *  1. First word in a sentence is capitalized
- *  2. Last word in a sentence is capitalized
- *  3. Words within brackets (or similar) are capitalized, similar to rules #1 & #2
- *  4. Words within the $ignoredWords array should not be capitalized as long as it
- *      doesn't conflict with rules #1-#3
- *  5. Words preceded by multiple special characters should be capitalized: $$$Money
- *  6. All dashed words should be capitalized: Super-Awesome-Post
- *  7. Ignore words that already include at least one uppercase letter. We'll assume
- *      that the author knows what they're doing: eBay, iPad, McCormick, etc
  */
 class TextFormatter
 {

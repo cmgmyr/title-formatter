@@ -1,6 +1,6 @@
-<?php namespace Cmgmyr\TextFormatter\Test;
+<?php namespace Spartz\TextFormatter\Test;
 
-use Cmgmyr\TextFormatter\TextFormatter;
+use Spartz\TextFormatter\TextFormatter;
 
 class TextFormatterTest extends TestCase
 {
