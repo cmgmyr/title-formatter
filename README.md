@@ -1,3 +1,5 @@
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+
 # Title Text Formatter
 
 A simple to use text formatter, primarily used for page/blog titles.
