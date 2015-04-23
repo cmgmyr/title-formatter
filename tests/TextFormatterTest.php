@@ -57,8 +57,8 @@ class TextFormatterTest extends TestCase
         ],
         [
             // tests for a bug in first words with apostrophes, should not capitalize second letter
-            'title' => 'it\'s really something, isn\'t it?',
-            'correct' => 'It\'s Really Something, Isn\'t It?'
+            'title' => 'it\'s really- something, isn\'t it?',
+            'correct' => 'It\'s Really- Something, Isn\'t It?'
         ],
         [
             // tests for a bug with a dash separator
@@ -67,8 +67,8 @@ class TextFormatterTest extends TestCase
         ],
         [
             // tests for a bug with multiple separators
-            'title' => 'test --- jet fighters - test ==== testtest',
-            'correct' => 'Test --- Jet Fighters - Test ==== Testtest'
+            'title' => 'test --- jet-- fighters - test ==== testtest',
+            'correct' => 'Test --- Jet-- Fighters - Test ==== Testtest'
         ],
         [
             // tests numbers only

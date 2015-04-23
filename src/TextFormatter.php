@@ -141,6 +141,10 @@ class TextFormatter
 
         $words = explode($this->separator, $this->title);
         foreach ($words as $word) {
+            if (mb_strlen($word, $this->encoding) == 0) {
+                continue;
+            }
+
             $wordIndex = $this->getWordIndex($word, $offset);
 
             if ($this->hasDash($word)) {
