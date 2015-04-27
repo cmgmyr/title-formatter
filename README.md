@@ -1,3 +1,8 @@
+[![Build Status](https://img.shields.io/travis/SpartzInc/text-formatter.svg?style=flat-square)](https://travis-ci.org/SpartzInc/text-formatter)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/SpartzInc/text-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/SpartzInc/text-formatter/code-structure/)
+[![Code Quality](https://img.shields.io/scrutinizer/g/SpartzInc/text-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/SpartzInc/text-formatter/)
+[![Code Climate](https://img.shields.io/codeclimate/github/SpartzInc/text-formatter.svg?style=flat-square)](https://codeclimate.com/github/SpartzInc/text-formatter)
+[![Latest Version](https://img.shields.io/github/release/SpartzInc/text-formatter.svg?style=flat-square)](https://github.com/SpartzInc/text-formatter/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 # Title Text Formatter
@@ -8,7 +13,9 @@ A simple to use text formatter, primarily used for page/blog titles.
 
 Via Composer
 
-	$ composer require spartz/text-formatter
+    "require": {
+        "spartz/text-formatter": "~1.0"
+    }
 
 ## Usage
 
