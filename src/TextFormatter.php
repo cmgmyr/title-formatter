@@ -211,7 +211,7 @@ class TextFormatter
             } else {
                 $hasPunctuation = false;
             }
-        } while ($hasPunctuation == true);
+        } while ($hasPunctuation === true);
 
         return $prefix . ucwords($word);
     }
