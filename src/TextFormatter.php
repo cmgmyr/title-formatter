@@ -170,7 +170,7 @@ class TextFormatter
      */
     protected function correctIndexOffset($index)
     {
-        return mb_strlen(substr($this->title, 0, $index), $this->encoding);
+        return mb_strlen(mb_substr($this->title, 0, $index, $this->encoding), $this->encoding);
     }
 
     /**

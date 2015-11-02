@@ -105,6 +105,11 @@ class TextFormatterTest extends TestCase
             'title' => 'test',
             'correct' => 'Test'
         ],
+        [
+            // tests for a bug with special characters
+            'title' => 'get up and dance — 7 reasons why you should be… moving your feet to the beat',
+            'correct' => 'Get Up and Dance — 7 Reasons Why You Should Be… Moving Your Feet to the Beat'
+        ],
     ];
 
     /** @test */
