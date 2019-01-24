@@ -1,41 +1,39 @@
-<?php namespace Spartz\TextFormatter;
+<?php
 
-/**
- * Class TextFormatter
- *
- */
-class TextFormatter
+namespace Cmgmyr\TitleFormatter;
+
+class TitleFormatter
 {
     /**
-     * The title that we need to format and return
+     * The title that we need to format and return.
      *
      * @var string|null
      */
     protected $title = null;
 
     /**
-     * The separator character for in between words
+     * The separator character for in between words.
      *
      * @var string
      */
     protected $separator = ' ';
 
     /**
-     * Encoding used for mb_ functions
+     * Encoding used for mb_ functions.
      *
      * @var string
      */
     protected $encoding = 'UTF-8';
 
     /**
-     * Collection of words generated from the original title
+     * Collection of words generated from the original title.
      *
      * @var array
      */
     protected $indexedWords = [];
 
     /**
-     * Words that should be ignored from capitalization
+     * Words that should be ignored from capitalization.
      *
      * @var array
      */
@@ -58,11 +56,11 @@ class TextFormatter
         'to',
         'the',
         'vs',
-        'via'
+        'via',
     ];
 
     /**
-     * Construct, just needs the title to get going
+     * Construct, just needs the title to get going.
      *
      * @param string $title
      * @param string $separator
@@ -74,7 +72,7 @@ class TextFormatter
     }
 
     /**
-     * Converts the initial title to a correctly formatted one
+     * Converts the initial title to a correctly formatted one.
      *
      * @return string
      */
@@ -94,7 +92,7 @@ class TextFormatter
     }
 
     /**
-     * Returns the newly formatted title
+     * Returns the newly formatted title.
      *
      * @param string $title
      * @param string $separator
@@ -103,18 +101,19 @@ class TextFormatter
     public static function titleCase($title, $separator = ' ')
     {
         // hack in order to keep static method call
-        $obj = new TextFormatter($title, $separator);
+        $obj = new TitleFormatter($title, $separator);
+
         return $obj->convertTitle();
     }
 
     /**
-     * Sets the title after cleaning up extra spaces
+     * Sets the title after cleaning up extra spaces.
      *
      * @param string $title
      */
     protected function setTitle($title)
     {
-        $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
+        $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", ' ', $title)));
 
         if ($title != '') {
             $this->title = $title;
@@ -122,7 +121,7 @@ class TextFormatter
     }
 
     /**
-     * Creates an array of words from the title to be formatted
+     * Creates an array of words from the title to be formatted.
      */
     protected function splitWords()
     {
@@ -138,7 +137,7 @@ class TextFormatter
             $wordIndex = $this->getWordIndex($word, $offset);
 
             if ($this->hasDash($word)) {
-                $word = TextFormatter::titleCase($word, '-');
+                $word = TitleFormatter::titleCase($word, '-');
                 $this->rebuildTitle($wordIndex, $word);
             }
 
@@ -150,7 +149,7 @@ class TextFormatter
     }
 
     /**
-     * Finds the correct index of the word within the title
+     * Finds the correct index of the word within the title.
      *
      * @param $word
      * @param $offset
@@ -159,11 +158,12 @@ class TextFormatter
     protected function getWordIndex($word, $offset)
     {
         $index = mb_strpos($this->title, $word, $offset, $this->encoding);
+
         return $this->correctIndexOffset($index);
     }
 
     /**
-     * Corrects the potential offset issue with some UTF-8 characters
+     * Corrects the potential offset issue with some UTF-8 characters.
      *
      * @param $index
      * @return int
@@ -174,7 +174,7 @@ class TextFormatter
     }
 
     /**
-     * Replaces a formatted word within the current title
+     * Replaces a formatted word within the current title.
      *
      * @param int $index
      * @param string $word
@@ -193,7 +193,7 @@ class TextFormatter
     }
 
     /**
-     * Performs the uppercase action on the given word
+     * Performs the uppercase action on the given word.
      *
      * @param $word
      * @return string
@@ -217,7 +217,7 @@ class TextFormatter
     }
 
     /**
-     * Condition to see if the given word should be uppercase
+     * Condition to see if the given word should be uppercase.
      *
      * @param $index
      * @param $word
@@ -237,7 +237,7 @@ class TextFormatter
     }
 
     /**
-     * Checks to see if the word is the last word in the title
+     * Checks to see if the word is the last word in the title.
      *
      * @param $word
      * @return bool
@@ -252,7 +252,7 @@ class TextFormatter
     }
 
     /**
-     * Checks to see if the word the start of a new sentence
+     * Checks to see if the word the start of a new sentence.
      *
      * @param $index
      * @return bool
@@ -273,7 +273,7 @@ class TextFormatter
     }
 
     /**
-     * Checks to see if the given string is a punctuation character
+     * Checks to see if the given string is a punctuation character.
      *
      * @param $string
      * @return int
@@ -284,7 +284,7 @@ class TextFormatter
     }
 
     /**
-     * Checks if the given word should be ignored
+     * Checks if the given word should be ignored.
      *
      * @param $word
      * @return bool
@@ -295,18 +295,18 @@ class TextFormatter
     }
 
     /**
-     * Checks to see if a word has an uppercase letter
+     * Checks to see if a word has an uppercase letter.
      *
      * @param $word
      * @return int
      */
     protected function hasUppercaseLetter($word)
     {
-        return preg_match("/[A-Z]/", $word);
+        return preg_match('/[A-Z]/', $word);
     }
 
     /**
-     * Checks to see if the word has a dash
+     * Checks to see if the word has a dash.
      *
      * @param $word
      * @return int

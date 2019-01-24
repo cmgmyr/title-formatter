@@ -1,5 +1,9 @@
-<?php namespace Spartz\TextFormatter\Test;
+<?php
 
-class TestCase extends \PHPUnit_Framework_TestCase
+namespace Cmgmyr\TitleFormatter\Test;
+
+use PHPUnit\Framework\TestCase as PHPUnit;
+
+class TestCase extends PHPUnit
 {
 }

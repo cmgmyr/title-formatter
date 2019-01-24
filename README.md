@@ -1,8 +1,8 @@
-[![Build Status](https://img.shields.io/travis/SpartzInc/text-formatter.svg?style=flat-square)](https://travis-ci.org/SpartzInc/text-formatter)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/SpartzInc/text-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/SpartzInc/text-formatter/code-structure/)
-[![Code Quality](https://img.shields.io/scrutinizer/g/SpartzInc/text-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/SpartzInc/text-formatter/)
-[![Code Climate](https://img.shields.io/codeclimate/github/SpartzInc/text-formatter.svg?style=flat-square)](https://codeclimate.com/github/SpartzInc/text-formatter)
-[![Latest Version](https://img.shields.io/github/release/SpartzInc/text-formatter.svg?style=flat-square)](https://github.com/SpartzInc/text-formatter/releases)
+[![Build Status](https://img.shields.io/travis/cmgmyr/title-formatter.svg?style=flat-square)](https://travis-ci.org/cmgmyr/title-formatter)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/cmgmyr/title-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/cmgmyr/title-formatter/code-structure/)
+[![Code Quality](https://img.shields.io/scrutinizer/g/cmgmyr/title-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/cmgmyr/title-formatter/)
+[![Code Climate](https://img.shields.io/codeclimate/github/cmgmyr/title-formatter.svg?style=flat-square)](https://codeclimate.com/github/cmgmyr/title-formatter)
+[![Latest Version](https://img.shields.io/github/release/cmgmyr/title-formatter.svg?style=flat-square)](https://github.com/cmgmyr/title-formatter/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 # Title Text Formatter
@@ -14,17 +14,19 @@ A simple to use text formatter, primarily used for page/blog titles.
 Via Composer
 
     "require": {
-        "spartz/text-formatter": "~1.0"
+        "cmgmyr/title-formatter": "~1.0"
     }
 
 ## Usage
 
-	use Spartz\TextFormatter\TextFormatter;
-	
-	$title = "this is a messy title. [can you fix it?]";
-	$title = TextFormatter::titleCase($title);
-	echo $title; // This is a Messy Title. [Can You Fix It?]
-	
+```php
+use Cmgmyr\TitleFormatter\TitleFormatter;
+
+$title = "this is a messy title. [can you fix it?]";
+$title = TitleFormatter::titleCase($title);
+echo $title; // This is a Messy Title. [Can You Fix It?]
+```
+
 ## Formatting "Rules"
 
 1. First word in a sentence is capitalized
@@ -41,7 +43,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email [Chris Gmyr](mailto:cgmyr@spartzinc.com) instead of using the issue tracker.
+If you discover any security related issues, please email [Chris Gmyr](mailto:cmgmyr@gmail.com) instead of using the issue tracker.
 
 ## Credits
 

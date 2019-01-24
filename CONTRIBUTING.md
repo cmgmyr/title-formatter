@@ -2,7 +2,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-We accept contributions via Pull Requests on [Github](https://github.com/SpartzInc/text-formatter).
+We accept contributions via Pull Requests on [Github](https://github.com/cmgmyr/title-formatter).
 
 
 ## Pull Requests
