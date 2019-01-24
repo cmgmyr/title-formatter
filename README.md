@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/travis/cmgmyr/title-formatter.svg?style=flat-square)](https://travis-ci.org/cmgmyr/title-formatter)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/cmgmyr/title-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/cmgmyr/title-formatter/code-structure/)
 [![Code Quality](https://img.shields.io/scrutinizer/g/cmgmyr/title-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/cmgmyr/title-formatter/)
-[![Code Climate](https://img.shields.io/codeclimate/github/cmgmyr/title-formatter.svg?style=flat-square)](https://codeclimate.com/github/cmgmyr/title-formatter)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/cmgmyr/title-formatter.svg?style=flat-square)](https://codeclimate.com/github/cmgmyr/title-formatter)
 [![Latest Version](https://img.shields.io/github/release/cmgmyr/title-formatter.svg?style=flat-square)](https://github.com/cmgmyr/title-formatter/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
