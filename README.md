@@ -13,9 +13,11 @@ A simple to use text formatter, primarily used for page/blog titles.
 
 Via Composer
 
-    "require": {
-        "cmgmyr/title-formatter": "~1.0"
-    }
+```
+"require": {
+    "cmgmyr/title-formatter": "~1.0"
+}
+```
 
 ## Usage
 
