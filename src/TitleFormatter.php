@@ -9,7 +9,7 @@ class TitleFormatter
      *
      * @var string|null
      */
-    protected $title = null;
+    protected $title;
 
     /**
      * The separator character for in between words.
@@ -60,12 +60,10 @@ class TitleFormatter
     ];
 
     /**
-     * Construct, just needs the title to get going.
-     *
      * @param string $title
      * @param string $separator
      */
-    public function __construct($title, $separator = ' ')
+    private function __construct($title, $separator = ' ')
     {
         $this->setTitle($title);
         $this->separator = $separator;
@@ -100,10 +98,7 @@ class TitleFormatter
      */
     public static function titleCase($title, $separator = ' ')
     {
-        // hack in order to keep static method call
-        $obj = new TitleFormatter($title, $separator);
-
-        return $obj->convertTitle();
+        return (new self($title, $separator))->convertTitle();
     }
 
     /**
@@ -137,7 +132,7 @@ class TitleFormatter
             $wordIndex = $this->getWordIndex($word, $offset);
 
             if ($this->hasDash($word)) {
-                $word = TitleFormatter::titleCase($word, '-');
+                $word = self::titleCase($word, '-');
                 $this->rebuildTitle($wordIndex, $word);
             }
 
