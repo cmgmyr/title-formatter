@@ -15,7 +15,7 @@ Via Composer
 
 ```
 "require": {
-    "cmgmyr/title-formatter": "~1.0"
+    "cmgmyr/title-formatter": "~2.0"
 }
 ```
 
