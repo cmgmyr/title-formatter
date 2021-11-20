@@ -1,9 +1,7 @@
-[![Build Status](https://img.shields.io/travis/cmgmyr/title-formatter.svg?style=flat-square)](https://travis-ci.org/cmgmyr/title-formatter)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/cmgmyr/title-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/cmgmyr/title-formatter/code-structure/)
-[![Code Quality](https://img.shields.io/scrutinizer/g/cmgmyr/title-formatter.svg?style=flat-square)](https://scrutinizer-ci.com/g/cmgmyr/title-formatter/)
-[![Maintainability](https://img.shields.io/codeclimate/maintainability/cmgmyr/title-formatter.svg?style=flat-square)](https://codeclimate.com/github/cmgmyr/title-formatter)
-[![Latest Version](https://img.shields.io/github/release/cmgmyr/title-formatter.svg?style=flat-square)](https://github.com/cmgmyr/title-formatter/releases)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Tests](https://github.com/cmgmyr/title-formatter/actions/workflows/run-tests.yml/badge.svg)](https://github.com/cmgmyr/title-formatter/actions/workflows/run-tests.yml)
+[![Latest Version](https://img.shields.io/github/release/cmgmyr/title-formatter.svg)](https://github.com/cmgmyr/title-formatter/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/cmgmyr/title-formatter.svg)](https://packagist.org/packages/cmgmyr/title-formatter)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 
 # Title Text Formatter
 
@@ -41,17 +39,13 @@ echo $title; // This is a Messy Title. [Can You Fix It?]
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-## Security
+## Security Vulnerabilities
 
-If you discover any security related issues, please email [Chris Gmyr](mailto:cmgmyr@gmail.com) instead of using the issue tracker.
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
 - [Chris Gmyr](https://github.com/cmgmyr)
 - [All Contributors](../../contributors)
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
