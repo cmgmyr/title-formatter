@@ -6,38 +6,28 @@ class TitleFormatter
 {
     /**
      * The title that we need to format and return.
-     *
-     * @var string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The separator character for in between words.
-     *
-     * @var string
      */
-    protected $separator = ' ';
+    protected string $separator = ' ';
 
     /**
      * Encoding used for mb_ functions.
-     *
-     * @var string
      */
-    protected $encoding = 'UTF-8';
+    protected string $encoding = 'UTF-8';
 
     /**
      * Collection of words generated from the original title.
-     *
-     * @var array
      */
-    protected $indexedWords = [];
+    protected array $indexedWords = [];
 
     /**
      * Words that should be ignored from capitalization.
-     *
-     * @var array
      */
-    protected $ignoredWords = [
+    protected array $ignoredWords = [
         'a',
         'an',
         'and',
@@ -59,11 +49,7 @@ class TitleFormatter
         'via',
     ];
 
-    /**
-     * @param string $title
-     * @param string $separator
-     */
-    private function __construct($title, $separator = ' ')
+    private function __construct(?string $title = null, string $separator = ' ')
     {
         $this->setTitle($title);
         $this->separator = $separator;
@@ -71,10 +57,8 @@ class TitleFormatter
 
     /**
      * Converts the initial title to a correctly formatted one.
-     *
-     * @return string
      */
-    public function convertTitle()
+    public function convertTitle(): string
     {
         if ($this->title === null) {
             return '';
@@ -86,31 +70,25 @@ class TitleFormatter
             }
         }
 
-        return $this->title;
+        return $this->title ?? '';
     }
 
     /**
      * Returns the newly formatted title.
-     *
-     * @param string $title
-     * @param string $separator
-     * @return string
      */
-    public static function titleCase($title, $separator = ' ')
+    public static function titleCase(?string $title = null, string $separator = ' '): string
     {
         return (new self($title, $separator))->convertTitle();
     }
 
     /**
      * Sets the title after cleaning up extra spaces.
-     *
-     * @param string $title
      */
-    protected function setTitle($title)
+    protected function setTitle(?string $title = null): void
     {
         $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", ' ', $title)));
 
-        if ($title != '') {
+        if ($title !== '') {
             $this->title = $title;
         }
     }
@@ -118,14 +96,13 @@ class TitleFormatter
     /**
      * Creates an array of words from the title to be formatted.
      */
-    protected function splitWords()
+    protected function splitWords(): array
     {
         $indexedWords = [];
         $offset = 0;
 
-        $words = explode($this->separator, $this->title);
-        foreach ($words as $word) {
-            if (mb_strlen($word, $this->encoding) == 0) {
+        foreach (explode($this->separator, $this->title) as $word) {
+            if (mb_strlen($word, $this->encoding) === 0) {
                 continue;
             }
 
@@ -145,12 +122,8 @@ class TitleFormatter
 
     /**
      * Finds the correct index of the word within the title.
-     *
-     * @param $word
-     * @param $offset
-     * @return int
      */
-    protected function getWordIndex($word, $offset)
+    protected function getWordIndex(string $word, int $offset): int
     {
         $index = mb_strpos($this->title, $word, $offset, $this->encoding);
 
@@ -159,22 +132,16 @@ class TitleFormatter
 
     /**
      * Corrects the potential offset issue with some UTF-8 characters.
-     *
-     * @param $index
-     * @return int
      */
-    protected function correctIndexOffset($index)
+    protected function correctIndexOffset(?int $index): int
     {
         return mb_strlen(mb_substr($this->title, 0, $index, $this->encoding), $this->encoding);
     }
 
     /**
      * Replaces a formatted word within the current title.
-     *
-     * @param int $index
-     * @param string $word
      */
-    protected function rebuildTitle($index, $word)
+    protected function rebuildTitle(int $index, string $word): void
     {
         $this->title =
             mb_substr($this->title, 0, $index, $this->encoding) .
@@ -189,11 +156,8 @@ class TitleFormatter
 
     /**
      * Performs the uppercase action on the given word.
-     *
-     * @param $word
-     * @return string
      */
-    protected function uppercaseWord($word)
+    protected function uppercaseWord(string $word): string
     {
         // see if first characters are special
         $prefix = '';
@@ -213,31 +177,24 @@ class TitleFormatter
 
     /**
      * Condition to see if the given word should be uppercase.
-     *
-     * @param $index
-     * @param $word
-     * @return bool
      */
-    protected function wordShouldBeUppercase($index, $word)
+    protected function wordShouldBeUppercase(int $index, string $word): bool
     {
         return
             (
                 $this->isFirstWordOfSentence($index) ||
                 $this->isLastWord($word) ||
-                !$this->isIgnoredWord($word)
+                ! $this->isIgnoredWord($word)
             ) &&
             (
-                !$this->hasUppercaseLetter($word)
+                ! $this->hasUppercaseLetter($word)
             );
     }
 
     /**
      * Checks to see if the word is the last word in the title.
-     *
-     * @param $word
-     * @return bool
      */
-    protected function isLastWord($word)
+    protected function isLastWord(string $word): bool
     {
         if ($word === end($this->indexedWords)) {
             return true;
@@ -247,14 +204,11 @@ class TitleFormatter
     }
 
     /**
-     * Checks to see if the word the start of a new sentence.
-     *
-     * @param $index
-     * @return bool
+     * Checks to see if the word is the start of a new sentence.
      */
-    protected function isFirstWordOfSentence($index)
+    protected function isFirstWordOfSentence(int $index): bool
     {
-        if ($index == 0) {
+        if ($index === 0) {
             return true;
         }
 
@@ -269,47 +223,35 @@ class TitleFormatter
 
     /**
      * Checks to see if the given string is a punctuation character.
-     *
-     * @param $string
-     * @return int
      */
-    protected function isPunctuation($string)
+    protected function isPunctuation(string $string): int
     {
         return preg_match("/[\p{P}\p{S}]/u", $string);
     }
 
     /**
      * Checks if the given word should be ignored.
-     *
-     * @param $word
-     * @return bool
      */
-    protected function isIgnoredWord($word)
+    protected function isIgnoredWord(string $word): bool
     {
-        return in_array($word, $this->ignoredWords);
+        return in_array($word, $this->ignoredWords, true);
     }
 
     /**
      * Checks to see if a word has an uppercase letter.
-     *
-     * @param $word
-     * @return int
      */
-    protected function hasUppercaseLetter($word)
+    protected function hasUppercaseLetter(string $word): int
     {
         return preg_match('/[A-Z]/', $word);
     }
 
     /**
      * Checks to see if the word has a dash.
-     *
-     * @param $word
-     * @return int
      */
-    protected function hasDash($word)
+    protected function hasDash(string $word): bool
     {
         $wordWithoutDashes = str_replace('-', '', $word);
 
-        return preg_match("/\-/", $word) && mb_strlen($wordWithoutDashes, $this->encoding) > 1;
+        return (bool) preg_match("/\-/", $word) && mb_strlen($wordWithoutDashes, $this->encoding) > 1;
     }
 }
