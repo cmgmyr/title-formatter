@@ -13,7 +13,7 @@ class TitleFormatterTest extends TestCase
      */
     public function it_should_format_titles_correctly(?string $initial, string $expected): void
     {
-        $this->assertEquals($expected, TitleFormatter::titleCase($initial));
+        $this->assertSame($expected, TitleFormatter::titleCase($initial));
     }
 
     public function titleProvider(): iterable
